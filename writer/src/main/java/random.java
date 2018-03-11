@@ -60,40 +60,29 @@ public class random
 		return N;
 	}
 	
-	public static void buildCollection(Map<String, Vector<String>> col,
-			Vector<String> key_col,int length,Vector<String> vec,int N) {
-		int n = N - 1;
-		for (int i = 0; i < length; i++) {
-			String key= new String();
-			for (int j = 0; j < n; j++) {
-				if (i + j < length) {
-					key = key + vec.get(i + j)+" ";
-				}
-				else {
-					key = key + vec.get(i + j - length)+" ";
-				}
-			}
-			
-			key_col.addElement(key);
-			if (i + n < length) {
-				Vector<String> ve=new Vector<String>();
-				if(col.containsKey(key)) {
-				    ve=col.get(key);
-				}
-				ve.addElement(vec.get(i+n));
-				col.put(key, ve);
+	public static String buildKeyCol(int length,int i,int n,Vector<String> vec) {
+		String key= new String();
+		for (int j = 0; j < n; j++) {
+			if (i + j < length) {
+				key = key + vec.get(i + j)+" ";
 			}
 			else {
-				Vector<String> ve=new Vector<String>();
-				if(col.containsKey(key)) {
-				    ve=col.get(key);
-				}
-				ve.addElement(vec.get(i+n-length));
-				col.put(key, ve);
-				
+				key = key + vec.get(i + j - length)+" ";
 			}
-		}    
+		}
+		return key;
+		
 	}
+	public static void buildCollection(Map<String, Vector<String>> col,String key,String val) {
+		Vector<String> ve=new Vector<String>();
+		if(col.containsKey(key)) {
+		    ve=col.get(key);
+		}
+		ve.addElement(val);
+		col.put(key, ve);
+	}
+	
+	
 	public static String newCurrent(String current) {
 		int pos = current.indexOf(" ");
 		//	sz = current.length();
@@ -137,11 +126,26 @@ public class random
 		System.out.println ("Value of N? ");
 		Scanner inputN=new Scanner(System.in);
 		Num=inputN.nextLine();
-		System.out.println (Num);
 	    int N=getValueN(length,Num);
 	    int n = N - 1;
 		Vector<String> key_col= new Vector<String>();
-		buildCollection(col,key_col,length,vec,N);
+		for (int i = 0; i < length; i++) {
+			String key= new String();
+			key=buildKeyCol(length,i,n,vec);
+			key_col.addElement(key);
+			if (i + n < length) {
+				String val=new String();
+				val=vec.get(i+n);
+				buildCollection(col,key,val);
+			}
+			else {
+				String val=new String();
+				val=vec.get(i+n-length);
+				buildCollection(col,key,val);
+
+				
+			}
+		}    
 		 //build a collection of all the N-1 words and their suffixes
 		
 		while (true) {

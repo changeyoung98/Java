@@ -32,9 +32,42 @@ public class randomTest {
 		System.setOut(System.out);*/
 	
 	}
+	
+	@Test
+	public void testBuildKeyCol() {
+		random Random=new random();
+		Vector<String> vec=new Vector<String>();
+		vec.add("I");
+		vec.add("am");
+		vec.add("now");
+		vec.add("coding");
+		vec.add("for");
+		vec.add("my");
+		vec.add("homework.");
+		int length=7;
+		int i=4;
+		int n=5;
+		String key=new String();
+		key=Random.buildKeyCol(length, i, n, vec);
+		assertEquals("for my homework. I am ",key);
+	}
 
 	@Test
 	public void testBuildCollection() {
+		random Random=new random();
+		Map<String, Vector<String>> col=new HashMap<String, Vector<String>>();
+		Vector<String> vec=new Vector<String>();
+		vec.add("Python");
+		String key1="1";
+		col.put("1", vec);
+		String key2= "2";
+		String val="Java";
+		Random.buildCollection(col, key1, val);
+		int size1=col.get("1").size();
+		assertEquals(2,size1);
+		Random.buildCollection(col, key2, val);
+		int size2=col.size();
+		assertEquals(2,size2);
 	
 	}
 
